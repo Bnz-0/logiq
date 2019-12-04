@@ -51,7 +51,7 @@ class sdc:
                     Op.Y*1j | self.qs[i//2]
 
 
-    def recive(self, qs_a):
+    def receive(self, qs_a):
         bits=[]
         for i in range(len(qs_a)):
             m = (qs_a[i] @ self.qs[i]).measure(sdc.basis)

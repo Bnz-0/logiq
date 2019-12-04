@@ -6,7 +6,7 @@ Here the scheme of the algorithm:
 
 ![](../imgs/dj_simple.png)
 
-The following implementation can be intresting because it **generate the `Uf` operator dynamically using `f(x)`**
+The following implementation can be interesting because it **generate the `Uf` operator dynamically using `f(x)`**
 
 
 The operator `Uf` can be generate following this scheme:

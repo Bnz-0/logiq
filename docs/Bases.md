@@ -7,7 +7,7 @@ A basis serves for 2 things:
 
 Measure something means that:
 - the internal state of the measured quantum state changes
-- returns the eigenvalue associated to the autostate measured
+- returns the eigenvalue associated to the eigenstate measured
 
 
 To measure a quantum state exists 2 way:
@@ -83,7 +83,7 @@ print(q) # -1|1>
 print(q.printAs(myBasis)) # +1|1>
 ```
 But why the qubit "viewed" as myBasis = |1> = -1|1> =  the same qubit "viewed" as stdbasis?  
-Of couse because wh hadn't specify the symbols for the states of myBasis!
+Of course because wh hadn't specify the symbols for the states of myBasis!
 ```python
 print(myBasis)
 # |0>: |(1+0j); 0j>
@@ -104,11 +104,11 @@ print(myBasis)
 # |a>: |(1+0j); 0j>
 # |b>: |0j; (-1+0j)>
 ```
-In this way you avoid misunderstoods when print the state of a quantum state.
+In this way, you avoid misunderstands when printing the state of a quantum state.
 
 > You can also create a basis only to represent quantum states in a different way, for example if you want to "work" with electron and you prefer to represent a state not in term of |0> and |1> but with |up> and |down> states, you can easily do that using a CanonBasis:
 >```python
->eBasis = CanonBasis(2, ['up','down']) #basis with 2 autostate and their symbols
+>eBasis = CanonBasis(2, ['up','down']) #basis with 2 eigenstate and their symbols
 >e = qbit('|up>', basis=eBasis)
 >print(e) # +1|up> (extra life! 🍄)
 >```

@@ -8,7 +8,7 @@ Logi<span style="color:red">q</span> is a python library to simulate the ***logi
 ## Main aspects
 This library aims to make easy and simple the using of the quantum states (i.e. qubits and something more 😉), operator, basis and mostly, how these interacts with each other.
 
-To achieve this, the library is focused to add a **great layer of  abstraction** to gain semplicity and in comprehensibility.
+To achieve this, the library is focused to add a **great layer of  abstraction** to gain simplicity and in comprehensibility.
 
 This layer includes:
 - Great support for the bra-ket notation to represent the states.
@@ -51,4 +51,4 @@ $ pip install ./logiq
 - Email: [matteo.benzi97@gmail.com](mailto:matteo.benzi97@gmail.com)
 - Telegram: [@bnz997](https://t.me/bnz997)
 
-Do not hesitate to contact me for anythings 😉
+Do not hesitate to contact me for anything 😉

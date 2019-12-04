@@ -60,7 +60,7 @@ class sdc: #SuperDense Coding
                     Op.Y*1j | self.qs[i//2]
 
 
-    def recive(self, qs_a):
+    def receive(self, qs_a):
         bits=[]
         for i in range(len(qs_a)):
             m = (qs_a[i] @ self.qs[i]).measure(sdc.basis)
@@ -82,7 +82,7 @@ cheat(False) #disable cheating in logiq
 
 alice, bob = sdc.init(5)
 alice.prepare([0,1,1,0,1])
-bits = bob.recive(alice.qs)
+bits = bob.receive(alice.qs)
 
 print(bits)
 ```

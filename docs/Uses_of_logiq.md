@@ -1,6 +1,6 @@
 # Logi<span style="color:red">q</span>: "how to use"
 
-Let's see some simple example to understand how `Qstate`, `Basis` and `Op` work togheder
+Let's see some simple example to understand how `Qstate`, `Basis` and `Op` work together
 
 > For [Qstate](Quantum_state_creations.md), [Basis](Bases.md) and [Operator](Operators.md) (Op) introduction follow the links.
 
@@ -29,7 +29,7 @@ The nice things is that **in logiq you can forget it and focus on an higher leve
 >```python
 >q = qbit(ket(0,1)) # this is a vector so no problem
 >Op.X | q
->pritn( q.state ) # in q.state there is the vector that represents the internal state of q, so the result will be "|(1+0j); 0j>"
+>print( q.state ) # in q.state there is the vector that represents the internal state of q, so the result will be "|(1+0j); 0j>"
 >```
 >For more on this and the interaction between logiq and numpy, please see [this](numpy_integration.md).
 
@@ -47,7 +47,7 @@ print(q) # +1j|0>
 AllInOneOperator = Op.X * Op.Y * Op.Z
 # this new operator if applied to a qubit have the same effect if I applied X, Y and Z to a qubit
 
-# so I can rewrite all things that I'vd done before in just 3 line:
+# so I can rewrite all things that I've done before in just 3 line:
 q = qbit(1,0)
 AllInOneOperator | q
 print(q) # +1j|0>
@@ -62,10 +62,10 @@ Measure a qubit is the only way to "read" the state (destroying it etc etc..), i
 
 Measure something means 2 things:
 - the internal state of the measured qubit change
-- the return value is the eigenvalue associated to the autostate measured
+- the return value is the eigenvalue associated to the eigenstate measured
 
 ```python
-q = qbit('|0>') # the defaul basis of q will be stdbasis
+q = qbit('|0>') # the default basis of q will be stdbasis
 result = q.measure()
 
 # Now in result there is the eigenvalue and the internal state of q is collapsed
@@ -89,10 +89,10 @@ q.printProbs()
 # |0>: 50%
 # |1>: 50%
 
-# ... the result will be incert
+# ... the result will be uncertain
 ```
 
-> The value of each probabilities are in `q.prob(i [, basis])` where `i` is the i-th autostate of the basis
+> The value of each probabilities are in `q.prob(i [, basis])` where `i` is the i-th eigenstate of the basis
 
 If you want to use a different basis it can be done or changing the "default" basis with `.stdBasis(new default basis)` method or specifying it every time:
 ```python
@@ -104,7 +104,7 @@ q.printProbs(hadamard)
 result = q.measure(hadamard)
 ```
 
-The result of a measure is fundamental but using the stdbasis you will fall into a big problem: the eigenvalue of sdbasis (the possible result after a measurement) are 1 and... 1!  
+The result of a measure is fundamental but using the stdbasis you will fall into a big problem: the eigenvalue of stdbasis (the possible result after a measurement) are 1 and... 1!  
 This means that you never know in which state was collapsed your qubit.
 
 It's time to make our basis to avoid this problem:
@@ -132,7 +132,7 @@ else : print('q was collapsed into |b>')
 ### Adding another qubit to make things more intresting
 
 Re-start creating 2 different qubit.  
-Now, you have to know that **in logiq all qubit have a life of its own**, so the concept of _registers_ and _position of the qubits_ dows not exists here!
+Now, you have to know that **in logiq all qubit have a life of its own**, so the concept of _registers_ and _position of the qubits_ does not exists here!
 
 ```python
 #creating q0 and q1 with same state (|0>)
@@ -157,7 +157,7 @@ print(q0) # ±1|1>
 print(q1) # ±1|1>
 print(q) # +1|11>
 ```
-If you notice when q0 and q1 are printed a `±` was appeared, it means that q0 and q1 are in entanglement and what you see is an aproximated state.
+If you notice when q0 and q1 are printed a `±` was appeared, it means that q0 and q1 are in entanglement and what you see is an approximated state.
 
 > **NB:** to create 2 qubit with same state you cannot do
 >```python
@@ -170,7 +170,7 @@ Remember that kind of state are `Qstate`, so all method that you can use for a s
 
 Thanks to this, all method that you can use for a simple qubit work with a much complex state.
 
-For example the "composition" between quantum states using the tensor product is flexile because `q0` and `q` are both `Qstate`:
+For example the "composition" between quantum states using the tensor product is flexible because `q0` and `q` are both `Qstate`:
 ```python
 q = qbit(1,0) @ qbit(0,1)
 print(q) # +1|01>
@@ -187,9 +187,9 @@ print(q) # +0.70711|0010> +0.70711|0011>
 ---
 ## The abstraction of logiq
 
-For the last part of this fiendly introduction, I want you to understand what is the level of abstraction that I've put in logiq.
+For the last part of this friendly introduction, I want you to understand what is the level of abstraction that I've put in logiq.
 
-Probably the most imporant layer of abstracion was the **elimination of the concept of registers**.
+Probably the most important layer of abstraction was the **elimination of the concept of registers**.
 
 In fact this help a lot to manage problem that appear in classic way, for instance in a quantum computer you are not able to apply a q-gate to 2 arbitrary qubit:
 ```python

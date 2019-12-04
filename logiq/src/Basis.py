@@ -19,7 +19,7 @@ class Basis(matrix):
     """
     A Basis serves to measuring and representing a quantum state
 
-    + `basis`: a matrix that describe it or a list of autostate
+    + `basis`: a matrix that describe it or a list of eigenstate
     + `symbols` (optional): the symbols to represent the autosate of this new basis
     """
 
@@ -51,16 +51,16 @@ class Basis(matrix):
             raise InitializationError('Error to initialize Basis', e)
     
 
-    def autostate(self, i):
-        "returns the i-th autostate"       
+    def eigenstate(self, i):
+        "returns the i-th eigenstate"       
         if isinstance(i, slice):
-            return tuple(self.autostate(index) for index in range(*i.indices(len(self))))
+            return tuple(self.eigenstate(index) for index in range(*i.indices(len(self))))
 
         return super().__getitem__((slice(None), i))
     
 
     def __getitem__(self, i):
-        return self.autostate(i)
+        return self.eigenstate(i)
 
 
     def __setitem__(self, i, value):
@@ -152,7 +152,7 @@ class CanonBasis(Basis):
 
     def __init__(self, dim, symbols = None):
         if dim < 2:
-            raise ValueError('Minimum leght allow for a Basis is 2')
+            raise ValueError('Minimum length allow for a Basis is 2')
         if symbols is None:
             if dim > len(STD_SYMBOLS):
                 symbols = dynSymb(dim)

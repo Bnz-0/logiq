@@ -72,4 +72,4 @@ q = qbit('|+>', basis=hadamard)
 U | q
 print(q) # -1|->
 ```
-This method can be really usefull to create dinamically an _oracle_ (see [this](Examples/Examples_list.md) for an example of use)
+This method can be really useful to create dynamically an _oracle_ (see [this](Examples/Examples_list.md) for an example of use)
