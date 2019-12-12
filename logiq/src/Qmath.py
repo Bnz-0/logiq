@@ -7,7 +7,7 @@ from .qtils import equal, isScalar, math, mod_square, np
 #### Qmath.py
 #
 # This file contains 2 classes that wrap the numpy.matrix class: the vector and the matrix class,
-# it contains also other matematical functions used in the classes.
+# it contains also other mathematical functions used in the classes.
 # (In the future, these 2 classes could be refactored and became the subclasses of a superclass "linobj")
 #
 ####
@@ -134,7 +134,7 @@ class vector:
     def npm(self):
         """
         Return the reference of the `numpy.matrix` associated
-        Whatch out: it return the reference of the vector (for performance reason), so if you want to modify it first copy it.
+        Watch out: it return the reference of the vector (for performance reason), so if you want to modify it first copy it.
         """
         return self.vect
 
@@ -176,7 +176,7 @@ class vector:
     def normalize(self):
         "Normalize this vector (i.e. his norm became 1)"
         d = self.norm2()
-        if d==0: raise DimensionError("The null vector isn't normalizabile")
+        if d==0: raise DimensionError("The null vector isn't normalizable")
         for i in range(len(self)):
             self[i] /= d
         return self
@@ -381,7 +381,7 @@ class matrix:
             else:
                 self.mtx = np.matrix(M, complex)
         except Exception as e:
-            raise InitializationError('Error to inizialize the matrix', e)
+            raise InitializationError('Error to initialize the matrix', e)
 
         if values2round is not None: self.round_error(values2round)
 
@@ -424,7 +424,7 @@ class matrix:
     def npm(self):
         """
         Return the reference of the `numpy.matrix` associated.  
-        Whatch out: it return the reference of the matrix (for performance reason), so if you want to modify it first copy it.
+        Watch out: it return the reference of the matrix (for performance reason), so if you want to modify it first copy it.
         """
         return self.mtx
 
