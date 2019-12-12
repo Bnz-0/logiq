@@ -63,8 +63,8 @@ For instance if you want to create a basis that have different eigenvalue (becau
 
 ```python
 myBasis = Basis([
-    ket(1,0),
-    ket(0,-1)
+    [1,0],
+    [0,-1]
 ])
 print(myBasis.ew) # [(1+0j), (-1+0j)]
 ```
@@ -97,8 +97,8 @@ As you can see stdbasis and myBasis use the same symbols for different states.
 To avoid this you can use different symbols for the basis you declare:
 ```python
 myBasis = Basis([
-    ket(1,0),
-    ket(0,-1)
+    [1,0],
+    [0,-1]
 ], 'ab')
 print(myBasis)
 # |a>: |(1+0j); 0j>
@@ -106,7 +106,7 @@ print(myBasis)
 ```
 In this way, you avoid misunderstands when printing the state of a quantum state.
 
-> You can also create a basis only to represent quantum states in a different way, for example if you want to "work" with electron and you prefer to represent a state not in term of |0> and |1> but with |up> and |down> states, you can easily do that using a CanonBasis:
+> You can also create a basis only to represent quantum states in a different way, for example if you want to "work" with electron spin and you prefer to represent a state not in term of |0> and |1> but with |up> and |down> states, you can easily do that using a CanonBasis:
 >```python
 >eBasis = CanonBasis(2, ['up','down']) #basis with 2 eigenstate and their symbols
 >e = qbit('|up>', basis=eBasis)
