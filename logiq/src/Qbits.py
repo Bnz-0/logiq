@@ -147,12 +147,18 @@ class Qbits(_Qstate):
 
 
     def measure(self, basis = None):
-        self._state = self._getState()
-        i, state, basis = super().measure(basis)
-        self._state = None
+        qent = get_ent(self._qbits)
+        if qent is None:
+            self._state = self._getState()
+            i, state, basis = super().measure(basis)
+            self._state = None
 
-        self.apply(MeasureOp(state, basis, i))
-        return basis.ew[i]
+            self.apply(MeasureOp(state, basis, i))
+            return basis.ew[i]
+        else:
+            return qent.measure(basis)
+
+        
 
 
     def printAs(self, basis):
