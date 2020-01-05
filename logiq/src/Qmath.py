@@ -586,6 +586,7 @@ class matrix:
 
     @staticmethod
     def rand_unitary(dim):
+        # (from scipy)
         random_state = np.random
         z = 1/math.sqrt(2)*(random_state.normal(size=(dim, dim)) + 1j*random_state.normal(size=(dim, dim)))
         q, r = np.linalg.qr(z)
@@ -596,6 +597,7 @@ class matrix:
 
     @staticmethod
     def rand_orthonormal(dim):
+        # (from scipy)
         random_state = np.random
         H = np.eye(dim)
         D = np.ones((dim,))

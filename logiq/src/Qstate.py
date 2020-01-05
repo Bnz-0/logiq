@@ -118,5 +118,3 @@ def qbit(*something, basis=None, normalize=None, transform=False):
 
     else:
         raise IncomprehensibleStatusError('Failed to understand which quantum state to generate')
-
-qdit = qbit

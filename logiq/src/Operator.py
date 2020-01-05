@@ -90,7 +90,7 @@ class Op(matrix):
     @staticmethod
     def build(rules, basis = None):
         """
-        Another way to create an operator is to describe it's behaviour with the autostate of a basis
+        Another way to create an operator is to describe it's behavior with the autostate of a basis
 
         + `rules`: a dictionary {state : new_state} where state and new_state can be the vector, the number of autostate of basis or a string that represents the state (according to the basis symbols)
         + `basis` (optional): the basis which represents the rules (if it's the standard basis it's unnecessary)
