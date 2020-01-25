@@ -1,6 +1,6 @@
 # Personal file
-TODO/
-.vscode/
+TODO
+.vscode
 
 # temp!
 tests/
@@ -90,3 +90,6 @@ celerybeat-schedule
 .venv/
 venv/
 ENV/
+
+# pytest
+.pytest_cache

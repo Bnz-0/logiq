@@ -36,13 +36,13 @@ Logiq is written for `python3` (the minimum version tested is 3.6.8) and the onl
 
 You can easily install it using **pip**: (suggested way)
 ```
-$ pip install logiq
+$ pip install -U logiq
 ```
 
 Or cloning this repository and manually install it:
 ```
 $ git clone git@github.com:Bnz-0/logiq.git
-$ pip install ./logiq
+$ pip install -U ./logiq
 ```
 
 ---
