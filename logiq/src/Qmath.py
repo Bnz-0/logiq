@@ -183,7 +183,7 @@ class vector:
 
 
     def __pos__(self):
-        pass
+        return self
 
 
     def __neg__(self):
@@ -430,7 +430,7 @@ class matrix:
 
 
     def __pos__(self):
-        pass
+        return self
 
 
     def __neg__(self):
