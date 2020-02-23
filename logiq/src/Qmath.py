@@ -55,7 +55,6 @@ def select_type(item):
         return matrix(item, no_cpy=True)#matrix
 
 
-
 class npmath:
     # Methods to use, safely, standard operators between scalars, vector, matrix and numpy.matrix
 
@@ -114,10 +113,8 @@ class vector:
 
     def __init__(self, v, normalize = False, values2round = None, no_cpy = False):
         try:
-            if no_cpy and isinstance(v, np.matrix):
-                self.vect = v
-            elif isinstance(v, (vector, matrix)):
-                self.vect = np.matrix(v.npm())
+            if isinstance(v, (np.matrix, vector, matrix)):
+                self.vect = v.npm() if no_cpy else np.matrix(v.npm())
             else:
                 self.vect = np.matrix(v, complex)
             
@@ -161,21 +158,22 @@ class vector:
 
 
     def norm(self):
-        "Return the norm of this vector, defined as `v•vt` where `vt` is the transpose of `v`"
-        return ~self * self if self.isCol() else self * ~self
+        "Return the norm of this vector, defined as `sqrt(<v|v>)`"
+        return math.sqrt(sum(mod_square(x) for x in self))
+        #return math.sqrt( ~self * self if self.isCol() else self * ~self )
     
 
-    def norm2(self):
-        "Return the norm 2 of this vector"
-        s = 0
-        for e in self:
-            s += mod_square(e)
-        return math.sqrt(s)
+    # def norm2(self):
+    #     "Return the norm 2 of this vector"
+    #     s = 0
+    #     for e in self:
+    #         s += mod_square(e)
+    #     return math.sqrt(s)
     
 
     def normalize(self):
         "Normalize this vector (i.e. his norm became 1)"
-        d = self.norm2()
+        d = self.norm()
         if d==0: raise DimensionError("The null vector isn't normalizable")
         for i in range(len(self)):
             self[i] /= d
@@ -341,8 +339,8 @@ class ket(vector):
     Usage: `ket(x0, x1, ..., xn)`"""
 
     def __init__(self, *values):
-        super().__init__(values)
         if len(values) == 1: values = values[0]
+        super().__init__(values)
         if self.isRow():
             if isinstance(values, vector): self.conj() #transformation from ket to bra
             else: self.transpose() #no transformation, only creating a vector column
@@ -374,12 +372,15 @@ class matrix:
     
     def __init__(self, M, values2round = None, no_cpy = False):
         try:
-            if no_cpy and isinstance(M, np.matrix):
-                self.mtx = M
-            elif isinstance(M, (matrix, vector)):
-                self.mtx = np.matrix(M.npm())
+            if isinstance(M, (np.matrix, matrix, vector)):
+                self.mtx = M.npm() if no_cpy else np.matrix(M.npm())
             else:
-                self.mtx = np.matrix(M, complex)
+                try:
+                    if isinstance(M[0], ket):
+                        M = [[M[j][i] for j in range(len(M))] for i in range(len(M[0]))]
+                except: pass
+                finally:
+                    self.mtx = np.matrix(M, complex)
         except Exception as e:
             raise InitializationError('Error to initialize the matrix', e)
 
