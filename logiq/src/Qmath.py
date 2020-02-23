@@ -86,10 +86,10 @@ class npmath:
 
     @staticmethod
     def equal(x, y):
-        if isScalar(x) and isScalar(y): return x == y
+        if isScalar(x) or isScalar(y): return x == y
         try: x = x.npm() ; y = y.npm()
         except: return False
-        return npmath.np_equal(x, y) #NB: missing case "isScalar(x) or isScalar(y)"
+        return npmath.np_equal(x, y)
 
     @staticmethod
     def np_equal(x, y):
