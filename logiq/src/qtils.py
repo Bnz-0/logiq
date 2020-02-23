@@ -65,10 +65,7 @@ def mod_square(c):
 
 def equal(n1, n2, precision=current_prec):
     "Check if 2 complex numbers are equal, keeping in mind possible error of approximation."
-    if isinstance(n1, np.inexact):
-        return np.around(n1, precision) == np.around(n2, precision)
-    else:
-        return n1 == n2
+    return np.around(n1, precision) == np.around(n2, precision)
 
 
 def equals(v1, v2):
