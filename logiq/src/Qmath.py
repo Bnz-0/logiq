@@ -160,16 +160,7 @@ class vector:
     def norm(self):
         "Return the norm of this vector, defined as `sqrt(<v|v>)`"
         return math.sqrt(sum(mod_square(x) for x in self))
-        #return math.sqrt( ~self * self if self.isCol() else self * ~self )
-    
-
-    # def norm2(self):
-    #     "Return the norm 2 of this vector"
-    #     s = 0
-    #     for e in self:
-    #         s += mod_square(e)
-    #     return math.sqrt(s)
-    
+        
 
     def normalize(self):
         "Normalize this vector (i.e. his norm became 1)"
