@@ -293,14 +293,14 @@ class vector:
     
 
     def __hash__(self):
-        return hash(str(self.vect)) #fast hash
+        return hash(str(self.vect))
 
 
     def __str__(self):
-        s=''
-        for i in range(len(self)): s += str(self[i])+'; '
-        return ('|' if self.isCol() else '<') + s[:-2] + ('>' if self.isCol() else '|')
-    
+        braket = "<|>"
+        i = self.isCol()
+        return braket[i] + "; ".join(str(self[i]) for i in range(len(self))) + braket[i+1]
+        
 
     def __repr__(self):
         return str(self)
