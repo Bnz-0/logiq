@@ -115,7 +115,7 @@ class Basis(matrix):
 
     def __str__(self):
         return "".join( (f"|{self.symbols[i]}>: {str(self[i])}\n" for i in range(len(self))) )
-    
+
 
     def __repr__(self):
         return str(self)
@@ -156,13 +156,16 @@ class dynSymb:
 
 
     def __getitem__(self, i):
-        if 0<=i<self.length:
-            return str(i)+' '
+        if abs(i)<self.length:
+            return str(i%self.length)+' '
         raise IndexError() #TODO
     
 
     def __len__(self):
         return self.length
+
+    def __str__(self):
+        return "".join(self)
 
 
 # ↑↑↑↑↑↑↑↑↑↑↑↑ Basis classes ↑↑↑↑↑↑↑↑↑↑↑↑ #
