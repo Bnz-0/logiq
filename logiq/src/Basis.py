@@ -45,7 +45,7 @@ class Basis(matrix):
             elif len(self) <= len(STD_SYMBOLS):
                 self.symbols = STD_SYMBOLS[:len(self)]
             else:
-                raise ValueError('Too many states ('+str(len(self))+'), please specify a list of symbols')
+                self.symbols = dynSymb(len(self))
 
         except Exception as e:
             raise InitializationError('Error to initialize Basis', e)
