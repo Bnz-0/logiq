@@ -81,10 +81,7 @@ class Basis(matrix):
 
 
     def __xor__(self, qs):
-        c = []
-        for q in qs:
-            c.append(q.measure(self))
-        return c
+        return [q.measure(self) for q in qs]
 
 
     def __matmul__(self, other):
@@ -117,10 +114,7 @@ class Basis(matrix):
 
 
     def __str__(self):
-        s=''
-        for i in range(len(self)):
-            s += '|'+self.symbols[i]+'>: '+str(self[i])+'\n'
-        return s
+        return "".join( (f"|{self.symbols[i]}>: {str(self[i])}\n" for i in range(len(self))) )
     
     def __repr__(self):
         return str(self)
@@ -193,7 +187,17 @@ class dynSymb:
 rd = 1/math.sqrt(2) #reciprocal diagonal ;)
 
 stdbasis = CanonBasis(2)
-hadamard = Basis(((rd,rd),(rd,-rd)), '+-')
-bell = Basis(((rd,0,0,rd),(0,rd,rd,0),(0,rd,-rd,0),(rd,0,0,-rd)), ['Φ+','Ψ+','Ψ-','Φ-'])
+
+hadamard = Basis(
+    ((rd,rd),
+    (rd,-rd)),
+    '+-')
+
+bell = Basis(
+    ((rd,0,0,rd),
+    (0,rd,rd,0),
+    (0,rd,-rd,0),
+    (rd,0,0,-rd)),
+    ['Φ+','Ψ+','Ψ-','Φ-'])
 
 # ↑↑↑↑↑↑↑↑↑↑↑↑ Creation of most used bases ↑↑↑↑↑↑↑↑↑↑↑↑ #
