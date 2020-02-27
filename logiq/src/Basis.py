@@ -116,17 +116,9 @@ class Basis(matrix):
     def __str__(self):
         return "".join( (f"|{self.symbols[i]}>: {str(self[i])}\n" for i in range(len(self))) )
     
+
     def __repr__(self):
         return str(self)
-
-
-    def measureOp(self, index, p):
-        """
-        Returns the operator that 'measures' the `index`-th state
-        
-        `p` is the probability to measure that state
-        """
-        return (1/p)*(self[index]*(self[index].t))
 
 
     @staticmethod
@@ -147,11 +139,6 @@ class CanonBasis(Basis):
     def __init__(self, dim, symbols = None):
         if dim < 2:
             raise ValueError('Minimum length allow for a Basis is 2')
-        if symbols is None:
-            if dim > len(STD_SYMBOLS):
-                symbols = dynSymb(dim)
-            else:
-                symbols = STD_SYMBOLS[:dim]
 
         super().__init__(np.identity(dim), symbols, no_cpy=True)
     
