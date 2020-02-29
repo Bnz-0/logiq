@@ -1,4 +1,4 @@
-from .Qerrors import InitializationError
+from .Qerrors import InitializationError, NotAllowError
 from .Qmath import kron, math, matrix, np, roundedVector, vector
 from .qtils import STD_SYMBOLS
 
@@ -64,7 +64,7 @@ class Basis(matrix):
 
 
     def __setitem__(self, i, value):
-        raise NotImplementedError('Basis is an immutable object')
+        raise NotAllowError('Basis is an immutable object')
     
 
     def transform(self, vect):
@@ -95,11 +95,11 @@ class Basis(matrix):
     
 
     def conj(self):
-        raise NotImplementedError('Basis is an immutable object')
+        raise NotAllowError('Basis is an immutable object')
     
 
     def transpose(self):
-        raise NotImplementedError('Basis is an immutable object')
+        raise NotAllowError('Basis is an immutable object')
 
 
     def __getattr__(self, name):

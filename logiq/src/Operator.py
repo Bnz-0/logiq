@@ -1,5 +1,5 @@
 from .Basis import Basis, CanonBasis, hadamard
-from .Qerrors import DimensionError, InitializationError
+from .Qerrors import DimensionError, InitializationError, NotAllowError
 from .Qmath import ket, kron, matrix, nkron, np, npmath, vector
 from .qtils import Vdigit, find, isScalar, mod_square, states2list, str2states
 
@@ -41,6 +41,10 @@ class Op(matrix):
 
     def _isSep(self):
         return len(self._pieces) > 1
+
+
+    def __setitem__(self, i, value):
+        raise NotAllowError('Op is an immutable object')
 
 
     def __or__(self, q):
