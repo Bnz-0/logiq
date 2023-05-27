@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "logiq"
+version = "0.1.99"
+authors = [
+  { name="Matteo Benzi", email="matteo.benzi97@gmail.com" },
+]
+description = "Logiq, a simple to use quantum simulator library"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy >= 1.18",
+]
+requires-python = ">=3.6"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+"Homepage" = "https://github.com/Bnz-0/logiq"
+"Bug Tracker" = "https://github.com/Bnz-0/logiq/issues"
