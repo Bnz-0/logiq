@@ -1,8 +1,9 @@
-import math
-from logiq import *
+#!/bin/env python3
+from logiq import Op, Basis, qbit
 
+# https://en.wikipedia.org/wiki/Deutsch%E2%80%93Jozsa_algorithm
 
-def deutch(f):
+def Deutsch_Jozsa(f):
     Uf = Op.build({			#          f(0)=f(1)=0   f(0)=f(1)=1  f(0)=0,f(1)=1  f(0)=1,f(1)=0
             0: 0^f(0),		# |00>  -->    |00>          |01>          |00>          |01>
             1: 1^f(0),		# |01>  -->    |01>          |10>          |01>          |00>
@@ -16,22 +17,16 @@ def deutch(f):
     Op.H ^ q
     Uf | q
     Op.H | q[0]
-    
+
     return q[0].measure(B)
 
+def main():
+    r = Deutsch_Jozsa(lambda x: x)
+    print(f"Deutsch_Jozsa(f(x) = x) --> {r}")
+    assert(r == -1)
+    r = Deutsch_Jozsa(lambda x: 0)
+    print(f"Deutsch_Jozsa(f(x) = 0) --> {r}")
+    assert(r == 1)
 
-
-def grover(db, f):
-    vect = lambda x: ket(*(1 if i==x else 0 for i in range(len(db))))
-    Uw = Op.build(
-        {i: -vect(i) if f(i) else vect(i) for i in range(len(db))}
-    )
-    Us = Op(2*db.state * ~db.state - matrix.Id(len(db)))
-
-    G = Uw*Us
-
-    for i in range(int(round(math.sqrt(len(db))))):
-        G | db
-
-    db.measure(CanonBasis(len(db)))
-    return db
+if __name__ == "__main__":
+    main()

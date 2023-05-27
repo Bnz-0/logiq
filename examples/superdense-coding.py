@@ -1,6 +1,6 @@
-import math
-from logiq import *
-
+#!/bin/env python3
+import math, random as R
+from logiq import Op, qbit, cheat, Basis
 
 rd=1/math.sqrt(2)
 
@@ -32,7 +32,7 @@ class sdc:
             qs_b.append(qb)
         return sdc(qs_a), sdc(qs_b)
 
-    
+
     def prepare(self, bits): #prepare the qubits to send the bits
         # add padding
         bits.append(1)
@@ -59,7 +59,7 @@ class sdc:
             elif m == sdc.basis.ew[1]: bits+=[1,0]
             elif m == sdc.basis.ew[2]: bits+=[1,1]
             else: bits+=[0,1]
-        
+
         # remove padding
         while bits.pop() == 0: pass
 
@@ -74,3 +74,20 @@ class sdc:
 
     def __repr__(self):
         return str(self.qs)
+
+
+def main():
+    cheat(False) #disable cheating in logiq
+    bits = [R.randint(0,1) for _ in range(10)]
+    print("Alice will send this bits to Bob:", bits)
+    sent_bits = bits[:]
+
+    alice, bob = sdc.init(len(bits))
+    alice.prepare(bits)
+    recv_bits = bob.receive(alice.qs)
+
+    print("Bob received:", recv_bits)
+    assert(sent_bits == recv_bits)
+
+if __name__ == "__main__":
+    main()
