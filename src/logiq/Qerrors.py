@@ -10,9 +10,9 @@ class_name = lambda obj: '<'+obj.__class__.__name__+'>'
 class LogiqError(Exception):
 
     def __init__(self, mex, prev=None):
+        super().__init__()
         self.mex = mex
         self.prev = prev
-    
 
     def __str__(self):
         return self.mex + ('' if self.prev is None else ', raised by ' + class_name(self.prev) + ': ' + str(self.prev))

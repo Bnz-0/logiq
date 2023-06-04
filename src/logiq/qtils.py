@@ -35,22 +35,22 @@ def find(l, e):
 
 # ↓↓↓↓↓↓↓↓↓↓↓↓ Precision ↓↓↓↓↓↓↓↓↓↓↓↓ #
 
-current_prec = DEFAULT_PRECISION = np.finfo(np.complex128).precision -1
+_current_prec = DEFAULT_PRECISION = np.finfo(np.complex128).precision -1
 
 
 def set_precision(p = None):
     "Set the precision used by the function `equal()`"
-    global current_prec
-    if p is None: current_prec = DEFAULT_PRECISION
+    global _current_prec
+    if p is None: _current_prec = DEFAULT_PRECISION
     elif p > 0:
-        current_prec = p
+        _current_prec = p
     else:
         raise ValueError('The value of precision must be an int greater than 0')
 
 
 def what_precision():
     "Returns the current precision"
-    return current_prec
+    return _current_prec
 
 # ↑↑↑↑↑↑↑↑↑↑↑↑ Precision ↑↑↑↑↑↑↑↑↑↑↑↑ #
 
@@ -63,9 +63,9 @@ def mod_square(c):
     return (c * c.conjugate()).real
 
 
-def equal(n1, n2, precision=current_prec):
-    "Check if 2 complex numbers are equal, keeping in mind possible error of approximation."
-    return np.around(n1, precision) == np.around(n2, precision)
+def equal(n1, n2, precision = None):
+    "Check if 2 complex numbers are equal, keeping in mind possible error of approximation. If `precision` is `None`  it will use the current precision"
+    return np.around(n1, precision or _current_prec) == np.around(n2, precision or _current_prec)
 
 
 def equals(v1, v2):
@@ -79,7 +79,7 @@ def equals(v1, v2):
     return True
 
 
-def isScalar(var):
+def is_scalar(var):
     "True if `var` is a scalar (i.e. a value in the complexes)"
     return isinstance(var, Complex)
 
@@ -94,8 +94,8 @@ num_format = "{:+.5}"
 
 def set_n_digits(n):
     """
-    Sets the number of digits "after the dot" you want to print.  
-    For example if you call `set_n_digits(3)` and then `print(my_qubit)`  
+    Sets the number of digits "after the dot" you want to print.
+    For example if you call `set_n_digits(3)` and then `print(my_qubit)`
     the result will be something like `'+0.707|0> +0.707|1>'`
     """
     if not isinstance(n, int): raise TypeError('The number of digits must be an int')
@@ -109,6 +109,7 @@ def round_float(strx):
     for i in range(len(strx)-1, 0, -1):
         if strx[i] != '0':
             return strx[0:i] if strx[i]=='.' else strx[0:i+1]
+    return strx
 
 
 def val2str(x):
@@ -124,7 +125,7 @@ def val2str(x):
         return round_float(num_format.format(x))
 
 
-def formatProbs(state, symb):
+def format_probs(state, symb):
     # used to formatting the probabilities of a qubit
     format_perc = lambda x: val2str(mod_square(x)*100).replace('+','')+'%'
     s=''
@@ -171,22 +172,22 @@ def states2list(states, symbols):
 
 class Vdigit: # Variable Base digits
     """
-    Transform a number into a representation digit-base:  
+    Transform a number into a representation digit-base:
     every digit of this representations has his base and it's independent of other digits.
 
-    Usage: 
+    Usage:
     + `bases`: a list that describe the length of basis for each digit (if it's a list of int) and the symbols that digit can assume (if it's a list fo strings)
     + `start_value` (optional): the initial value
 
-    Example:  
-    + `Vdigit([1,2,3], 5) -> '012'`  
+    Example:
+    + `Vdigit([1,2,3], 5) -> '012'`
     + `Vdigit(['abc','01234'], 10) -> 'c0'`
     """
 
     def __init__(self, bases, start_value = 0):
         self.ds = []
         self.bases = bases
-        self.hasNext = True
+        self.has_next = True
 
         if isinstance(bases[0], int):
             self.symb = lambda i: STD_SYMBOLS
@@ -225,23 +226,23 @@ class Vdigit: # Variable Base digits
         return val
 
 
-    def __pp(self, i):
+    def __incr(self, i):
         if i < 0:
-            self.hasNext = False
-        
+            self.has_next = False
+
         self.ds[i]+=1
 
         if self.ds[i] >= self.dim(i):
             self.ds[i] = 0
-            self.__pp(i-1)
+            self.__incr(i-1)
 
 
-    def _pp_ent(self, i, j, x):
+    def _incr_ent(self, i, j, x):
         # custom method used to swap an entanged state
         if x < 0:
-            self.hasNext = False
+            self.has_next = False
             return
-        elif x in (i,j):
+        if x in (i,j):
             x -= 1
         else:
             self.ds[x] += 1
@@ -251,20 +252,20 @@ class Vdigit: # Variable Base digits
             else:
                 return
 
-        self._pp_ent(i,j,x)
+        self._incr_ent(i,j,x)
 
 
-    def pp(self):
+    def incr(self):
         """
         The "plus plus" method: do a "+1" to the value of this Vdigit
-        
+
         If it's is out of digits raises a StopIteration exception
         """
-        if not self.hasNext:
+        if not self.has_next:
             raise StopIteration
 
-        self.__pp(len(self.bases)-1)
-        
+        self.__incr(len(self.bases)-1)
+
 
     def __iter__(self):
         return self
@@ -272,17 +273,17 @@ class Vdigit: # Variable Base digits
 
     def __next__(self):
         out = str(self)
-        self.pp() #++
+        self.incr()
         return out
 
 
-    def revStr(self):
+    def rev_str(self):
         """
-        Returns the reversed string of the representation  
+        Returns the reversed string of the representation
         (for example if the representation is '1a', this function returns 'a1')
         """
         return "".join(reversed(str(self)))
-    
+
 
     def __str__(self):
         return "".join( (self.symb(i)[self.ds[i]] for i in range(len(self.bases))) )

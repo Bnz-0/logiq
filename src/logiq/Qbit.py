@@ -1,10 +1,10 @@
 from .abs_Qstate import _Qstate, need_norm, unreal
-from .Basis import Basis, CanonBasis
-from .Operator import MeasureOp, Op
+from .Basis import CanonBasis
+from .Operator import MeasureOp
 from .Qbits import Qbits
 from .Qerrors import IllegalOperationError, InitializationError
-from .Qmath import roundedVector, vector
-from .qtils import equal, formatProbs, val2str
+from .Qmath import rounded_vector, Vector
+from .qtils import equal, format_probs, val2str
 
 
 #### Qbit.py
@@ -19,12 +19,12 @@ from .qtils import equal, formatProbs, val2str
 # ↓↓↓↓↓↓↓↓↓↓↓↓ Qbit class ↓↓↓↓↓↓↓↓↓↓↓↓ #
 
 class Qbit(_Qstate):
-    
+
     # Single qubit class
 
     def __init__(self, state, basis = None, normalize = None, transform = False):
         try:
-            super().__init__(vector(state), basis, [self], len(state))
+            super().__init__(Vector(state), basis, [self], len(state))
             self._ent = None
 
             if not equal(self._state.norm(), 1):
@@ -32,16 +32,14 @@ class Qbit(_Qstate):
                     self._state.normalize()
                 else:
                     raise IllegalOperationError('A quantum state must have norm 1, this one have norm '+str(self._state.norm()))
-            
-            if self._basis is None: self.setBasis(None)
+
+            if self._basis is None: self.set_basis(None)
             if transform: self._state = self._basis.transform(self._state)
 
         except Exception as e:
-            raise InitializationError("Error to initialize Qbit", e)
+            raise InitializationError("Error to initialize Qbit", e) from e
 
-
-
-    def setBasis(self, basis):
+    def set_basis(self, basis=None):
         if basis is None:
             self._basis = CanonBasis(len(self))
         else:
@@ -49,43 +47,36 @@ class Qbit(_Qstate):
             if len(self) != len(self._basis):
                 raise ValueError('Lengths of state and basis must be equal')
 
-
     def _entangle(self, ent, pos):
         Qbit_ent.__init__(self, ent, pos, self._basis)
         self.__class__ = Qbit_ent
 
-
     def measure(self, basis = None):
         i, _, basis = super().measure(basis)
-        self._state = vector(basis[i])
-
+        self._state = Vector(basis[i])
         return basis.ew[i]
-
 
     def __matmul__(self, q):
         if isinstance(q, int):
-            return Qbits([Qbit(vector(self._state), self._basis) for _ in range(q)])
+            return Qbits([Qbit(Vector(self._state), self._basis) for _ in range(q)])
         return Qbits([self, q])
 
-
     @unreal
-    def printAs(self, basis):
-        s=''
-        state = roundedVector(basis.transform(self._getState()))
+    def print_as(self, basis):
+        s = ''
+        state = rounded_vector(basis.transform(self._get_state()))
         for i in range(len(self)):
-            if(not equal(state[i], 0)):
+            if not equal(state[i], 0):
                 s += val2str(state[i]) + '|' + basis.symbols[i] + '> '
 
         return s[:-1]
 
-
     @unreal
-    def printProbs(self, basis = None):
+    def print_probs(self, basis = None):
         b = basis if basis is not None else self._basis
-        print(formatProbs(b.transform(self._getState()), b.symbols))
+        print(format_probs(b.transform(self._get_state()), b.symbols))
 
 # ↑↑↑↑↑↑↑↑↑↑↑↑ Qbit class ↑↑↑↑↑↑↑↑↑↑↑↑ #
-
 
 
 # ↓↓↓↓↓↓↓↓↓↓↓↓ Qbit_ent class ↓↓↓↓↓↓↓↓↓↓↓↓ #
@@ -99,42 +90,34 @@ class Qbit_ent(Qbit, _Qstate):
         self._ent = ent
         self._pos = pos
 
-
-    def _getState(self):
+    def _get_state(self):
         return self._ent._calc_p_state(self._pos)
-
 
     def _entangle(self, ent, pos):
         self._ent = ent
         self._pos = pos
 
-
     def apply(self, op, pos = None):
         self._ent.apply(op, self._pos)
-
 
     def measure(self, basis = None):
         i, state, basis = _Qstate.measure(self, basis)
         self._ent.apply(MeasureOp(state, basis, i), self._pos)
-
         return basis.ew[i]
-
-
 
     def __matmul__(self, q):
         if isinstance(q, int):
             raise IllegalOperationError('This state is in entanglement')
         return Qbits([self, q])
-    
-    
-    def printAs(self, basis):
-        s='' ; rappr = '|>'
-        state = roundedVector(basis.transform(self._getState()))
+
+    def print_as(self, basis):
+        s = ''
+        rappr = '|>'
+        state = rounded_vector(basis.transform(self._get_state()))
         for i in range(len(self)):
-            if(not equal(state[i], 0)):
+            if not equal(state[i], 0):
                 s += val2str(state[i]) + rappr[0] + basis.symbols[i] + rappr[1] + ' '
-        
-        s = s.replace('+', '±').replace('-', '±')
-        return s[:-1]
+
+        return s.replace('+', '±').replace('-', '±')[:-1]
 
 # ↑↑↑↑↑↑↑↑↑↑↑↑ Qbit_ent class ↑↑↑↑↑↑↑↑↑↑↑↑ #
